@@ -15,7 +15,7 @@ services:
       interval: 1m
       timeout: 10s
       retries: 3
-    image: local/scooters_web:latest
+    image: ricardofalc/scooters_web:latest
     container_name: scooters_web
     ports:
       - "6001:6001"
@@ -36,7 +36,7 @@ services:
       interval: 1m
       timeout: 10s
       retries: 3
-    image: local/scooters_server:latest
+    image: ricardofalc/scooters_server:latest
     container_name: scooters_server
     ports:
       - "5000:5000"
@@ -54,9 +54,9 @@ services:
       interval: 1m
       timeout: 10s
       retries: 3
-    image: local/scooters_db:latest
+    image: ricardofalc/scooters_db:latest
     container_name: scooters_db
     ports:
       - "5001:5001"
     environment:
-      - PORT=5001   
+      - PORT=5001
