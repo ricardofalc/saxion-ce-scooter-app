@@ -43,7 +43,7 @@ jobs:
         with:
           context: ./scooters_db
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/scooters_server:${{ env.TAG }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/scooters_db:${{ env.TAG }}
 
       - name: Build and push scooters_server image
         uses: docker/build-push-action@v5
