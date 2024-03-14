@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scooters-web
+spec:
+  replicas: 3 # Adjust as needed
+  selector:
+    matchLabels:
+      app: scooters-web
+  template:
+    metadata:
+      labels:
+        app: scooters-web
+    spec:
+      containers:
+      - name: scooters-web
+        image: ricardofalc/scooters_web:{{.Values.tag}}
+        ports:
+        - containerPort: 6001
+        env:
+        - name: WEBPORT
+          value: "6001"
+        command: ["sh", "-c", "sh /utilities/wait-for-it.sh scooters-server:5000 --timeout=20 -- node index.js"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: scooters-web
+spec:
+  selector:
+    app: scooters-web
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 6001

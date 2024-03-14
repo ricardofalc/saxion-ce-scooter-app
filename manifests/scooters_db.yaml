@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scooters-db
+spec:
+  replicas: 1 # Adjust as needed
+  selector:
+    matchLabels:
+      app: scooters-db
+  template:
+    metadata:
+      labels:
+        app: scooters-db
+    spec:
+      containers:
+      - name: scooters-db
+        image: ricardofalc/scooters_db:{{.Values.tag}}
+        ports:
+        - containerPort: 5001
+        env:
+        - name: PORT
+          value: "5001"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: scooters-db
+spec:
+  selector:
+    app: scooters-db
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 5001

@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scooters-server
+spec:
+  replicas: 3 # Adjust as needed
+  selector:
+    matchLabels:
+      app: scooters-server
+  template:
+    metadata:
+      labels:
+        app: scooters-server
+    spec:
+      containers:
+      - name: scooters-server
+        image: ricardofalc/scooters_server:{{.Values.tag}}
+        ports:
+        - containerPort: 5000
+        env:
+        - name: SERVERPORT
+          value: "5000"
+        - name: SCOOTERSDBURL
+          value: "http://scooters-db:5001/api/scooters"
+        command: ["sh", "-c", "sh /utilities/wait-for-it.sh scooters-db:5001 --timeout=20 -- node index.js"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: scooters-server
+spec:
+  selector:
+    app: scooters-server
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 5000

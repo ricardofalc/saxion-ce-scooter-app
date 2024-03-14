@@ -2,26 +2,20 @@ name: Build and Push to Production
 
 on:
   workflow_dispatch:
-    inputs:
-      namespace:
-        description: "Blue or Green namespace"
-        required: true
-        default: "green"
-
   push:
     branches:
-      - p
+      - ta
 
   pull_request:
     types: [opened, synchronize, reopened]
     branches:
-      - p
+      - ta
 
 env:
   REGION: "us-east1-a"
   CLUSTER: ""
-  NAMESPACE: ${{ github.event.inputs.namespace }}
-  TAG: "production-${{ github.sha }}"
+  NAMESPACE: "scooter-app-ta"
+  TAG: "staging-${{ github.sha }}"
 
 jobs:
   build:
